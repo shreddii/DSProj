@@ -1,60 +1,76 @@
 #include <iostream>
 #include "miniGit.hpp"
 #include <fstream>
+#include <filesystem>
+// namespace fs = std::filesystem;
+// using namespace std;
 
-using namespace std;
-
-miniGit::miniGit(){
+miniGit::miniGit()
+{
     commitsHead = new doublyNode();
 }
 
-void miniGit::add(){
+void miniGit::add()
+{
     string fileName;
-    cout<<"Please enter fileName."<<endl;
-    cin>>fileName;
-    while(!inDirectory(fileName)){
-        cout<<"Not in directory. Enter a valid file name.\n"<<endl;
-        cin>>fileName;
+    cout << "Please enter fileName." << endl;
+    cin >> fileName;
+    while (!inDirectory(fileName))
+    {
+        cout << "Not in directory. Enter a valid file name.\n"
+             << endl;
+        cin >> fileName;
     }
 
-    if(inSLL(fileName)){
-        cout<<"The file has already been added and it cannot be added twice.\n"<<endl;
+    if (inSLL(fileName))
+    {
+        cout << "The file has already been added and it cannot be added twice.\n"
+             << endl;
         return;
     }
 
-    singlyNode* newSLL = new singlyNode();
+    singlyNode *newSLL = new singlyNode();
     newSLL->fileName = fileName;
 
     //name of repository file
-    newSLL->fileVersion = fileName+"00";
+    newSLL->fileVersion = fileName + "00";
     newSLL->next = NULL;
 }
 
-bool miniGit::inDirectory(string fileName){
+bool miniGit::inDirectory(string fileName)
+{
     //finish this function
     return false;
 }
 
-bool miniGit::inSLL(string fileName){
-    singlyNode* tempFile = currCommit->head;
-    while(tempFile != NULL){
-        if(tempFile -> fileName == fileName){
-             return true;
+bool miniGit::inSLL(string fileName)
+{
+    singlyNode *tempFile = currCommit->head;
+    while (tempFile != NULL)
+    {
+        if (tempFile->fileName == fileName)
+        {
+            return true;
         }
         tempFile = tempFile->next;
     }
     return false;
 }
 
-bool miniGit::inDLL(string fileName){
-    if(fileName == ""){
+bool miniGit::inDLL(string fileName)
+{
+    if (fileName == "")
+    {
         return false;
     }
-    doublyNode* tempCommit = commitsHead;
-    while(tempCommit != NULL){
-        singlyNode* tempFile = tempCommit->head;
-        while(tempFile != NULL){
-            if(tempFile -> fileName == fileName){
+    doublyNode *tempCommit = commitsHead;
+    while (tempCommit != NULL)
+    {
+        singlyNode *tempFile = tempCommit->head;
+        while (tempFile != NULL)
+        {
+            if (tempFile->fileName == fileName)
+            {
                 return true;
             }
             tempFile = tempFile->next;
@@ -63,10 +79,3 @@ bool miniGit::inDLL(string fileName){
     }
     return false;
 }
-
-
-
-
-
-
-
