@@ -2,6 +2,15 @@
 
 using namespace std;
 
+class miniGit{
+    miniGit();
+    ~miniGit();
+    void add();
+    void remove();
+    void commit();
+    void checkout();
+};
+
 //each of doublyNodes corresponds to a single commit
 struct doublyNode{
     int commitNumber;
