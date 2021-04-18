@@ -2,13 +2,10 @@
 
 using namespace std;
 
-class miniGit{
-    miniGit();
-    ~miniGit();
-    void add();
-    void remove();
-    void commit();
-    void checkout();
+struct singlyNode{
+    std::string fileName; //name of local file
+    std::string fileVersion; //name of file in .minigit folder
+    singlyNode *next;
 };
 
 //each of doublyNodes corresponds to a single commit
@@ -19,10 +16,21 @@ struct doublyNode{
     doublyNode *next;
 };
 
-struct singlyNode{
-    std::string fileName; //name of local file
-    std::string fileVersion; //name of file in .minigit folder
-    singlyNode *next;
+class miniGit{
+    private:
+        doublyNode *commitsHead;
+        doublyNode *currCommit;
+    public:
+        miniGit();
+        ~miniGit();
+        void add();
+        void remove();
+        void commit();
+        void checkout();
+        bool inDLL(string fileName);
+        bool inSLL(string fileName);
 };
+
+
 
 
