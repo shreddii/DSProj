@@ -29,6 +29,7 @@ class miniGit{
         void checkout();
         bool inDLL(string fileName);
         bool inSLL(string fileName);
+        bool inDirectory(string filename);
 };
 
 

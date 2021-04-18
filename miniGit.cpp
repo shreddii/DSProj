@@ -13,11 +13,27 @@ void miniGit::add(){
     cout<<"Enter a file name"<<endl;
     cin>>fileName;
 
-    // while(!inDirectory(fileName)){
-    //     cout<<"Not in directory. Enter a valid file name"<<endl;
-    //     cin>>fileName;
-    // }
+    while(!inDirectory(fileName)){
+        cout<<"Not in directory. Enter a valid file name."<<endl;
+        cin>>fileName;
+    }
 
+    if(inSLL(fileName)){
+        cout<<"The file has already been added and it cannot be added twice"<<endl;
+        return;
+    }
+
+    singlyNode* newSLL = new singlyNode();
+    newSLL->fileName = fileName;
+
+    //name of repository file
+    newSLL->fileVersion = fileName+"00";
+    newSLL->next = NULL;
+}
+
+bool miniGit::inDirectory(string fileName){
+    //finish this function
+    return false;
 }
 
 bool miniGit::inSLL(string fileName){
