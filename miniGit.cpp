@@ -10,16 +10,15 @@ miniGit::miniGit(){
 
 void miniGit::add(){
     string fileName;
-    cout<<"Enter a file name"<<endl;
+    cout<<"Please enter fileName."<<endl;
     cin>>fileName;
-
     while(!inDirectory(fileName)){
-        cout<<"Not in directory. Enter a valid file name."<<endl;
+        cout<<"Not in directory. Enter a valid file name.\n"<<endl;
         cin>>fileName;
     }
 
     if(inSLL(fileName)){
-        cout<<"The file has already been added and it cannot be added twice"<<endl;
+        cout<<"The file has already been added and it cannot be added twice.\n"<<endl;
         return;
     }
 
