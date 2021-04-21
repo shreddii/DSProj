@@ -5,9 +5,11 @@
 namespace fs = std::filesystem;
 using namespace std;
 
+
 miniGit::miniGit()
 {
     commitsHead = new doublyNode();
+    fs::create_directory(".minigit");
 }
 
 void miniGit::add()
