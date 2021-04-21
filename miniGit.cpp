@@ -2,16 +2,18 @@
 #include "miniGit.hpp"
 #include <fstream>
 #include <filesystem>
-<<<<<<< HEAD
-=======
 
->>>>>>> 29a79decd37e12ce34d4357248d9090146cbc014
-namespace fs = std::filesystem;
 using namespace std;
+//file system is library
+namespace fs = std::__fs::filesystem;
 
 miniGit::miniGit()
-{
+{   
+    //fs can make a directory which is a folder in computer that holds files
     commitsHead = new doublyNode();
+    fs::create_directory(".minigit");
+    fs::remove_all(".minigit");
+    
 }
 
 void miniGit::add()
@@ -41,10 +43,13 @@ void miniGit::add()
     newSLL->next = NULL;
 }
 
+//is it in the folder
 bool miniGit::inDirectory(string fileName)
 {
     //finish this function
-    return false;
+    cout<<fs::current_path();
+
+    return fs::exists(fileName);
 }
 
 bool miniGit::inSLL(string fileName)
