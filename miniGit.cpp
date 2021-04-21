@@ -80,7 +80,13 @@ bool miniGit::inDLL(string fileName)
     return false;
 }
 
-void miniGit::remove(){
+void miniGit::remove()
+{
+    if (currCommit == nullptr)
+    {
+        cout << "Current commit is empty. No files to remove." << endl;
+        return;
+    }
     string fileName;
     cout << "Please enter fileName." << endl;
     cin >> fileName;
@@ -98,5 +104,61 @@ void miniGit::remove(){
         prev = tempFile;
         tempFile = tempFile->next;
     }
-    cout<<"Removal unsuccessful: file not found."<<endl;
+    cout << "Removal unsuccessful: file not found." << endl;
+}
+
+void miniGit::commit()
+{
+    singlyNode *tempFile = currCommit->head;
+    while (tempFile != NULL)
+    {
+        if (tempFile->fileVersion == "")
+        { //if file version does not exist
+            // copy the file from the current directory into the .minigit directory.
+            // The newly copied file should get the name from the node’s fileVersion member.
+            //(Note: this will only be the case when a file is added to the repository for the first time.)
+        }
+        else
+        {   //if file version does exist in minigit
+            //If the fileVersion file does exist in .minigit,
+            //check whether the current direc- tory file has been changed
+            //(i.e. has it been changed by the user?) with respect to the fileVersion file.
+            //(To do the comparison, you can read in the file from the current directory into one string
+            //and read in the file from the .minigit directory into another string, and check for equality.)
+            //Based on the comparison result, do the following:
+            //File is unchanged: do nothing.
+            //File is changed: copy the file from the current directory to the .minigit directory,
+            // and give it a name with the incremented version number. Also, update the SLL node member fileVersion to the incremented name.
+        }
+    }
+}
+
+bool isNumber(string s)
+{
+    for (int i = 0; i < s.size(); i++)
+    {
+        if (isdigit(s.at(i)) == false)
+            return false;
+    }
+    return true;
+}
+
+void miniGit::checkout()
+{
+    while (true)
+    {   
+        string entry;
+        int number;
+        cout << "\nPlease enter a commit number." << endl;
+        cin >> entry;
+        if (isNumber(entry))
+        {
+            number = stoi(entry);
+            break;
+        }
+        else
+        {
+            cout << "Entry was not a valid number." << endl;
+        }
+    }
 }

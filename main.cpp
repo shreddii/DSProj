@@ -81,8 +81,7 @@ int main()
             case 2:
                 //remove file
                 cout << "\nRemoving a file" << endl;
-                cout << "Please enter file name." << endl;
-                cin >> fileName;
+                m->remove();
                 break;
             case 3:
                 //commit
