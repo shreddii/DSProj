@@ -28,7 +28,7 @@ class miniGit{
         void commit();
         void checkout();
         bool inDLL(string fileName);
-        singlyNode* inSLL(string fileName);
+        bool inSLL(string fileName);
         bool inDirectory(string filename);
 };
 

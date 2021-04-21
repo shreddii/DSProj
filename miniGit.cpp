@@ -39,7 +39,8 @@ void miniGit::add()
 
 bool miniGit::inDirectory(string fileName)
 {
-    return fs::exists(fileName);
+    //finish this function
+    return false;
 }
 
 bool miniGit::inSLL(string fileName)
@@ -157,7 +158,8 @@ void miniGit::checkout()
         }
         else
         {
-            cout << "Entry was not a valid number." << endl;
+            cout << "Entry was not in number format." << endl;
         }
     }
+    
 }

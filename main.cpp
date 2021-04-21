@@ -13,16 +13,6 @@ using namespace std;
 
 //always git pull before editing and usually before get push (if get error)
 
-bool isNumber(string s)
-{
-    for (int i = 0; i < s.size(); i++)
-    {
-        if (isdigit(s.at(i)) == false)
-            return false;
-    }
-    return true;
-}
-
 void displayMenu1()
 {
     cout << "\nWould you like to to initialize an empty repository in the current directory?" << endl;
@@ -49,10 +39,10 @@ int main()
     displayMenu1();
     cin >> stringInput;
 
-    if (isNumber(stringInput))
-    {
-        intInput = stoi(stringInput);
-    }
+    // if (isNumber(stringInput))
+    // {
+    //     intInput = stoi(stringInput);
+    // }
 
     switch (intInput)
     {
@@ -88,21 +78,7 @@ int main()
                 break;
             case 4:
                 //checkout
-                while (true)
-                {
-                    cout << "\nPlease enter a commit number." << endl;
-                    cin >> entry;
-                    if (isNumber(entry))
-                    {
-                        commitNumber = stoi(entry);
-                    }
-                    else
-                    {
-                        cout << "Entry was not a valid number." << endl;
-                        continue;
-                    }
-                    break;
-                }
+                
                 break;
             case 5:
                 //quit
