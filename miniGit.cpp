@@ -98,5 +98,5 @@ void miniGit::remove(){
         prev = tempFile;
         tempFile = tempFile->next;
     }
-    cout<<"Removal unsuccessful: file not found."
+    cout<<"Removal unsuccessful: file not found."<<endl;
 }
