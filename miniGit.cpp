@@ -2,10 +2,6 @@
 #include "miniGit.hpp"
 #include <fstream>
 #include <filesystem>
-<<<<<<< HEAD
-=======
-
->>>>>>> 29a79decd37e12ce34d4357248d9090146cbc014
 namespace fs = std::filesystem;
 using namespace std;
 
@@ -82,4 +78,25 @@ bool miniGit::inDLL(string fileName)
         tempCommit = tempCommit->next;
     }
     return false;
+}
+
+void miniGit::remove(){
+    string fileName;
+    cout << "Please enter fileName." << endl;
+    cin >> fileName;
+    singlyNode *prev = nullptr;
+    singlyNode *tempFile = currCommit->head;
+    while (tempFile != NULL)
+    {
+        if (tempFile->fileName == fileName)
+        {
+            prev->next = tempFile->next;
+            delete tempFile;
+            tempFile = prev->next;
+            return;
+        }
+        prev = tempFile;
+        tempFile = tempFile->next;
+    }
+    cout<<"Removal unsuccessful: file not found."
 }
