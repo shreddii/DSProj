@@ -32,6 +32,15 @@ int main(){
     //     cout<<p.path()<<endl;
     // }
 
+    //traverse and read file contents
+    // string filename = "file.txt";
+    // ifstream inFile;
+    // inFile.open(".minigit/"+filename);
+    // string line;
+    // while(getline(inFile,line)){
+    //     cout<<line<<endl;
+    // }
+
     return 0;
 }
 
