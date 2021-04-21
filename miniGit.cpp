@@ -2,6 +2,10 @@
 #include "miniGit.hpp"
 #include <fstream>
 #include <filesystem>
+<<<<<<< HEAD
+=======
+
+>>>>>>> 29a79decd37e12ce34d4357248d9090146cbc014
 namespace fs = std::filesystem;
 using namespace std;
 
