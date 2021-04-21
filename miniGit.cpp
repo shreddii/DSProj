@@ -42,7 +42,8 @@ void miniGit::add()
 bool miniGit::inDirectory(string fileName)
 {
     //finish this function
-    return false;
+    //need to fix because path before name
+    return fs::exists(fileName);
 }
 
 bool miniGit::inSLL(string fileName)
