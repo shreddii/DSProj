@@ -8,6 +8,7 @@ using namespace std;
 miniGit::miniGit()
 {
     commitsHead = new doublyNode();
+    fs::create_directory(".minigit");
 }
 
 void miniGit::add()
@@ -39,8 +40,7 @@ void miniGit::add()
 
 bool miniGit::inDirectory(string fileName)
 {
-    //finish this function
-    return false;
+    return fs::exists(fileName);
 }
 
 bool miniGit::inSLL(string fileName)
