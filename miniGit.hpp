@@ -18,8 +18,7 @@ struct doublyNode{
 
 class miniGit{
     private:
-        doublyNode *commitsHead;
-        doublyNode *currCommit;
+        doublyNode *DLLHead;
     public:
         miniGit();
         ~miniGit();

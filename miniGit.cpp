@@ -2,14 +2,15 @@
 #include "miniGit.hpp"
 #include <fstream>
 #include <filesystem>
+#include <string>
 namespace fs = std::filesystem;
 using namespace std;
 
-
 miniGit::miniGit()
 {
-    commitsHead = new doublyNode();
+    DLLHead = new doublyNode();
     fs::create_directory(".minigit");
+    fs::create_directory(".current");
 }
 
 void miniGit::add()
@@ -37,6 +38,9 @@ void miniGit::add()
     //name of repository file
     newSLL->fileVersion = fileName + "00";
     newSLL->next = NULL;
+
+    ofstream write;
+    write.open("./.current/" + fileName);
 }
 
 bool miniGit::inDirectory(string fileName)
@@ -48,7 +52,7 @@ bool miniGit::inDirectory(string fileName)
 
 bool miniGit::inSLL(string fileName)
 {
-    singlyNode *tempFile = currCommit->head;
+    singlyNode *tempFile = DLLHead->head;
     while (tempFile != NULL)
     {
         if (tempFile->fileName == fileName)
@@ -66,7 +70,7 @@ bool miniGit::inDLL(string fileName)
     {
         return false;
     }
-    doublyNode *tempCommit = commitsHead;
+    doublyNode *tempCommit = DLLHead;
     while (tempCommit != NULL)
     {
         singlyNode *tempFile = tempCommit->head;
@@ -85,7 +89,7 @@ bool miniGit::inDLL(string fileName)
 
 void miniGit::remove()
 {
-    if (currCommit == nullptr)
+    if (DLLHead == nullptr)
     {
         cout << "Current commit is empty. No files to remove." << endl;
         return;
@@ -94,7 +98,7 @@ void miniGit::remove()
     cout << "Please enter fileName." << endl;
     cin >> fileName;
     singlyNode *prev = nullptr;
-    singlyNode *tempFile = currCommit->head;
+    singlyNode *tempFile = DLLHead->head;
     while (tempFile != NULL)
     {
         if (tempFile->fileName == fileName)
@@ -112,17 +116,58 @@ void miniGit::remove()
 
 void miniGit::commit()
 {
-    singlyNode *tempFile = currCommit->head;
+    singlyNode *tempFile = DLLHead->head;
     while (tempFile != NULL)
     {
         if (tempFile->fileVersion == "")
         { //if file version does not exist
+            ofstream write;
+            write.open("./minigit/" + tempFile->fileName);
+            ifstream read;
+            read.open("./current/" + tempFile->fileName);
+            string line;
+            while (getline(read, line))
+            {
+                write << line << endl;
+            }
             // copy the file from the current directory into the .minigit directory.
             // The newly copied file should get the name from the node’s fileVersion member.
             //(Note: this will only be the case when a file is added to the repository for the first time.)
         }
         else
-        {   //if file version does exist in minigit
+        {
+            ifstream miniFile;
+            ifstream currFile;
+            miniFile.open("./minigit/" + tempFile->fileVersion);
+            currFile.open("./current/" + tempFile->fileVersion);
+            string miniLine;
+            string currLine;
+            string sMini;
+            string sCurr;
+            while (getline(miniFile, miniLine))
+            {
+                sMini += miniLine;
+            }
+            while (getline(currFile, currLine))
+            {
+                sCurr += currLine;
+            }
+            if (sMini.compare(sCurr) != 0)
+            { //if they arent the same
+                int currVersion = stoi(tempFile->fileVersion.erase(0, tempFile->fileName.size()));
+                currVersion++;
+                string newName = tempFile->fileName + to_string(currVersion);
+                tempFile->fileVersion = newName;
+                ofstream write;
+                write.open("./minigit/" + tempFile->fileVersion);
+                ifstream read;
+                read.open("./current/" + tempFile->fileVersion);
+                string line;
+                while (getline(read, line))
+                {
+                    write << line << endl;
+                }
+            }
             //If the fileVersion file does exist in .minigit,
             //check whether the current direc- tory file has been changed
             //(i.e. has it been changed by the user?) with respect to the fileVersion file.
@@ -148,10 +193,10 @@ bool isNumber(string s)
 
 void miniGit::checkout()
 {
+    int number;
     while (true)
-    {   
+    {
         string entry;
-        int number;
         cout << "\nPlease enter a commit number." << endl;
         cin >> entry;
         if (isNumber(entry))
@@ -164,5 +209,12 @@ void miniGit::checkout()
             cout << "Entry was not in number format." << endl;
         }
     }
-    
+    doublyNode *temp = DLLHead;
+    while (temp != nullptr)
+    {
+        if (temp->commitNumber == number)
+        {
+            DLLHead->head = temp->head;
+        }
+    }
 }
