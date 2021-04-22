@@ -13,6 +13,16 @@ using namespace std;
 
 //always git pull before editing and usually before get push (if get error)
 
+// bool isNumber(string s)
+// {
+//     for (int i = 0; i < s.size(); i++)
+//     {
+//         if (isdigit(s.at(i)) == false)
+//             return false;
+//     }
+//     return true;
+// }
+
 void displayMenu1()
 {
     cout << "\nWould you like to to initialize an empty repository in the current directory?" << endl;
@@ -43,6 +53,8 @@ int main()
     // {
     //     intInput = stoi(stringInput);
     // }
+
+    intInput = stoi(stringInput);
 
     switch (intInput)
     {

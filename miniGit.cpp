@@ -47,7 +47,7 @@ bool miniGit::inDirectory(string fileName)
 {
     //finish this function
     //need to fix because path before name
-    return fs::exists(fileName);
+    return fs::exists("./.current/" + fileName);
 }
 
 bool miniGit::inSLL(string fileName)
@@ -115,7 +115,7 @@ void miniGit::remove()
 }
 
 void miniGit::commit()
-{
+{   
     singlyNode *tempFile = DLLHead->head;
     while (tempFile != NULL)
     {
@@ -182,7 +182,7 @@ void miniGit::commit()
 }
 
 bool isNumber(string s)
-{
+{   
     for (int i = 0; i < s.size(); i++)
     {
         if (isdigit(s.at(i)) == false)
@@ -192,7 +192,7 @@ bool isNumber(string s)
 }
 
 void miniGit::checkout()
-{
+{   
     int number;
     while (true)
     {
