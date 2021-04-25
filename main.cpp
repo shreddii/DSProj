@@ -43,7 +43,6 @@ void displayMenu2()
 
 int main()
 {
-    cout<<"entering main bdsfij"<<endl;
     string stringInput;
     int intInput;
 
