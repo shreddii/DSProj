@@ -7,7 +7,7 @@ namespace fs = std::filesystem;
 using namespace std;
 
 miniGit::miniGit()
-{   
+{
     fs::remove_all(".minigit");
     fs::remove_all(".current");
     DLLHead = new doublyNode();
@@ -42,17 +42,24 @@ void miniGit::add()
     newSLLNode->fileVersion = fileName + "00";
     newSLLNode->next = NULL;
 
-    if(DLLHead->head==nullptr){
+    if (DLLHead->head == nullptr)
+    {
         DLLHead->head = newSLLNode;
-    }else{
-        singlyNode* SLLTempNode = DLLHead->head;
-        while(SLLTempNode->next != nullptr ){
+    }
+    else
+    {
+        singlyNode *SLLTempNode = DLLHead->head;
+        while (SLLTempNode->next != nullptr)
+        {
             SLLTempNode = SLLTempNode->next;
         }
+        //fixed
+        SLLTempNode->next = newSLLNode;
     }
 
     ofstream write;
     write.open("./.current/" + fileName);
+    print();
 }
 
 bool miniGit::inDirectory(string fileName)
@@ -100,7 +107,7 @@ bool miniGit::inDLL(string fileName)
 }
 
 void miniGit::remove()
-{   
+{
     if (DLLHead->head == nullptr)
     {
         cout << "Current commit is empty. No files to remove." << endl;
@@ -113,42 +120,47 @@ void miniGit::remove()
     cin >> fileName;
 
     //remove from linked list
-    if(DLLHead->head->fileName == fileName){
+    if (DLLHead->head->fileName == fileName)
+    {
         delete DLLHead->head;
         DLLHead->head = nullptr;
-        fs::remove("./.current/"+fileName);
+        fs::remove("./.current/" + fileName);
         return;
     }
-    cout<<"file is at the middle or end."<<endl;
+    cout << "file is at the middle or end." << endl;
     singlyNode *prev = nullptr;
     singlyNode *tempFile = DLLHead->head;
     while (tempFile != nullptr)
-    {   
+    {
         if (tempFile->fileName == fileName)
-        {   
-            cout<<"file found!"<<endl;
+        {
+            cout << "file found!" << endl;
             prev->next = tempFile->next;
             delete tempFile;
-            fs::remove("./.current/"+fileName);
+            fs::remove("./.current/" + fileName);
             return;
         }
         prev = tempFile;
         tempFile = tempFile->next;
     }
     cout << "Removal unsuccessful: file not found." << endl;
+    print();
 }
 
 void miniGit::commit()
-{   
+{
     singlyNode *tempFile = DLLHead->head;
-    while (tempFile != NULL)
+    while (tempFile != NULL) //go through all files in current commit
     {
         if (tempFile->fileVersion == "")
         { //if file version does not exist
+
             ofstream write;
             write.open("./minigit/" + tempFile->fileName);
+
             ifstream read;
             read.open("./current/" + tempFile->fileName);
+
             string line;
             while (getline(read, line))
             {
@@ -156,18 +168,20 @@ void miniGit::commit()
             }
             // copy the file from the current directory into the .minigit directory.
             // The newly copied file should get the name from the node’s fileVersion member.
-            //(Note: this will only be the case when a file is added to the repository for the first time.)
+            // (Note: this will only be the case when a file is added to the repository for the first time.)
         }
-        else
+        else //if file exists already
         {
             ifstream miniFile;
-            ifstream currFile;
             miniFile.open("./minigit/" + tempFile->fileVersion);
-            currFile.open("./current/" + tempFile->fileVersion);
             string miniLine;
-            string currLine;
             string sMini;
+
+            ifstream currFile;
+            currFile.open("./current/" + tempFile->fileVersion);
+            string currLine;
             string sCurr;
+
             while (getline(miniFile, miniLine))
             {
                 sMini += miniLine;
@@ -203,10 +217,14 @@ void miniGit::commit()
             // and give it a name with the incremented version number. Also, update the SLL node member fileVersion to the incremented name.
         }
     }
+    doublyNode *newCommit = new doublyNode();
+    newCommit->next = DLLHead;
+    DLLHead->previous = newCommit;
+    DLLHead = newCommit;
 }
 
 bool isNumber(string s)
-{   
+{
     for (int i = 0; i < s.size(); i++)
     {
         if (isdigit(s.at(i)) == false)
@@ -216,7 +234,7 @@ bool isNumber(string s)
 }
 
 void miniGit::checkout()
-{   
+{
     int number;
     while (true)
     {
@@ -240,5 +258,22 @@ void miniGit::checkout()
         {
             DLLHead->head = temp->head;
         }
+    }
+}
+
+void miniGit::print()
+{
+    doublyNode *DLLtemp = DLLHead;
+    while (DLLtemp != nullptr)
+    {
+        cout << DLLtemp->commitNumber << ": ";
+        singlyNode *SLLtemp = DLLHead->head;
+        while (SLLtemp != nullptr)
+        {
+            cout << SLLtemp->fileName << ", ";
+            SLLtemp = SLLtemp->next;
+        }
+        cout << endl;
+        DLLtemp = DLLtemp->next;
     }
 }
