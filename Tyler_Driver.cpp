@@ -32,7 +32,7 @@ int main(){
     //     cout<<p.path()<<endl;
     // }
 
-    //traverse and read file contents
+    // traverse and read file contents
     // string filename = "file.txt";
     // ifstream inFile;
     // inFile.open(".minigit/"+filename);
