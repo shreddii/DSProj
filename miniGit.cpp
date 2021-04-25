@@ -7,8 +7,11 @@ namespace fs = std::filesystem;
 using namespace std;
 
 miniGit::miniGit()
-{
+{   
+    fs::remove_all(".minigit");
+    fs::remove_all(".current");
     DLLHead = new doublyNode();
+    DLLHead->commitNumber = 0;
     fs::create_directory(".minigit");
     fs::create_directory(".current");
 }
@@ -18,9 +21,9 @@ void miniGit::add()
     string fileName;
     cout << "Please enter fileName." << endl;
     cin >> fileName;
-    while (!inDirectory(fileName))
+    while (inDirectory(fileName))
     {
-        cout << "Not in directory. Enter a valid file name.\n"
+        cout << "Already in directory. Enter a valid file name.\n"
              << endl;
         cin >> fileName;
     }
@@ -36,8 +39,17 @@ void miniGit::add()
     newSLL->fileName = fileName;
     
     //name of repository file
-    newSLL->fileVersion = fileName + "00";
-    newSLL->next = NULL;
+    newSLLNode->fileVersion = fileName + "00";
+    newSLLNode->next = NULL;
+
+    if(DLLHead->head==nullptr){
+        DLLHead->head = newSLLNode;
+    }else{
+        singlyNode* SLLTempNode = DLLHead->head;
+        while(SLLTempNode->next != nullptr ){
+            SLLTempNode = SLLTempNode->next;
+        }
+    }
 
     ofstream write;
     write.open("./.current/" + fileName);
@@ -88,24 +100,36 @@ bool miniGit::inDLL(string fileName)
 }
 
 void miniGit::remove()
-{
-    if (DLLHead == nullptr)
+{   
+    if (DLLHead->head == nullptr)
     {
         cout << "Current commit is empty. No files to remove." << endl;
         return;
     }
+
+    //ask user for file
     string fileName;
     cout << "Please enter fileName." << endl;
     cin >> fileName;
+
+    //remove from linked list
+    if(DLLHead->head->fileName == fileName){
+        delete DLLHead->head;
+        DLLHead->head = nullptr;
+        fs::remove("./.current/"+fileName);
+        return;
+    }
+    cout<<"file is at the middle or end."<<endl;
     singlyNode *prev = nullptr;
     singlyNode *tempFile = DLLHead->head;
-    while (tempFile != NULL)
-    {
+    while (tempFile != nullptr)
+    {   
         if (tempFile->fileName == fileName)
-        {
+        {   
+            cout<<"file found!"<<endl;
             prev->next = tempFile->next;
             delete tempFile;
-            tempFile = prev->next;
+            fs::remove("./.current/"+fileName);
             return;
         }
         prev = tempFile;
