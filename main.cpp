@@ -3,6 +3,8 @@ using namespace std;
 #include <filesystem>
 #include "miniGit.hpp"
 
+//g++ main.cpp miniGit.cpp -o main -std=c++17
+
 //Leeb's bruh knowledge:
 //To make changes to the repo
 //make the change
@@ -43,7 +45,6 @@ void displayMenu2()
 
 int main()
 {
-    cout<<"entering main bdsfij"<<endl;
     string stringInput;
     int intInput;
 
