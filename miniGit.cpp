@@ -36,9 +36,9 @@ void miniGit::add()
         return;
     }
 
-    singlyNode *newSLLNode = new singlyNode();
-    newSLLNode->fileName = fileName;
-
+    singlyNode *newSLL = new singlyNode();
+    newSLL->fileName = fileName;
+    
     //name of repository file
     newSLLNode->fileVersion = fileName + "00";
     newSLLNode->next = NULL;
