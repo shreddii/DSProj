@@ -64,6 +64,8 @@
         "unordered_map": "cpp",
         "utility": "cpp",
         "vector": "cpp",
-        "queue": "cpp"
-    }
+        "queue": "cpp",
+        "filesystem": "cpp"
+    },
+    "C_Cpp.errorSquiggles": "Enabled"
 }

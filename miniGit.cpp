@@ -6,6 +6,7 @@
 namespace fs = std::filesystem;
 using namespace std;
 
+
 miniGit::miniGit()
 {
     fs::remove_all(".minigit");
@@ -223,7 +224,7 @@ void miniGit::commit()
     DLLHead = newCommit;
 }
 
-bool isNumber(string s)
+bool miniGit::isNumber(string s)
 {
     for (int i = 0; i < s.size(); i++)
     {

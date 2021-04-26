@@ -15,7 +15,7 @@ using namespace std;
 
 //always git pull before editing and usually before get push (if get error)
 
-// bool isNumber(string s)
+// bool isANumber(string s)
 // {
 //     for (int i = 0; i < s.size(); i++)
 //     {
@@ -45,61 +45,63 @@ void displayMenu2()
 
 int main()
 {
-    string stringInput;
-    int intInput;
+    miniGit *m = new miniGit();
+    string stringIn;
+    int intIn;
 
     displayMenu1();
-    cin >> stringInput;
+    cin >> stringIn;
 
-    // if (isNumber(stringInput))
-    // {
-    //     intInput = stoi(stringInput);
-    // }
+    while (!m->isNumber(stringIn))
+    {
+        cout << "please enter a valid number." << endl;
+        displayMenu1();
+        cin >> stringIn;
+    }
 
-    intInput = stoi(stringInput);
+    intIn = stoi(stringIn);
 
-    switch (intInput)
+    switch (intIn)
     {
     case 0:
         break;
     case 1:
         cout << "\nInitializing a new empty repository in the current directory. \n"
              << endl;
-        miniGit *m = new miniGit();
         bool keepGoing = true;
+
         while (keepGoing == true)
         {
             displayMenu2();
-            int in2;
-            cin >> in2;
-            string fileName;
-            string entry = "";
-            int commitNumber;
-            switch (in2)
+            cin >> stringIn;
+            while (!m->isNumber(stringIn))
+            {
+                cout << "please enter a valid number." << endl;
+                displayMenu2();
+                cin >> stringIn;
+            }
+            intIn = stoi(stringIn);
+
+            switch (intIn)
             {
             case 1:
-                //add file
-                cout << "\nAdding a file" << endl;
                 m->add();
                 break;
             case 2:
-                //remove file
-                cout << "\nRemoving a file" << endl;
                 m->remove();
                 break;
             case 3:
-                //commit
+                m->commit();
                 break;
             case 4:
-                //checkout
-                
+                m->checkout();
                 break;
             case 5:
-                //quit
                 keepGoing = false;
                 break;
             }
         }
+
         break;
     }
 

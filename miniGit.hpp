@@ -30,6 +30,7 @@ class miniGit{
         bool inSLL(string fileName);
         bool inDirectory(string filename);
         void print();
+        bool isNumber(string s);
 };
 
 
