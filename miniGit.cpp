@@ -6,7 +6,6 @@
 namespace fs = std::filesystem;
 using namespace std;
 
-
 miniGit::miniGit()
 {
     fs::remove_all(".minigit");
@@ -36,11 +35,12 @@ void miniGit::add()
         return;
     }
 
-    singlyNode *newSLL = new singlyNode();
-    newSLL->fileName = fileName;
-    
+    singlyNode *newSLLNode = new singlyNode();
+    newSLLNode->fileName = fileName;
+
     //name of repository file
     newSLLNode->fileVersion = fileName + "00";
+    cout<<"fileversion up top: "<<newSLLNode->fileVersion<<endl;
     newSLLNode->next = NULL;
 
     if (DLLHead->head == nullptr)
@@ -60,8 +60,16 @@ void miniGit::add()
 
     ofstream write;
     write.open("./.current/" + fileName);
+    //ask how to make changes reflect in file, can we just type in it?
+    cout<<"what u want in file"<<endl;
+    string stringInput;
+    cin >> stringInput;
+    write<<stringInput;
+    write.close();
     print();
 }
+
+
 
 bool miniGit::inDirectory(string fileName)
 {
@@ -153,18 +161,20 @@ void miniGit::commit()
     singlyNode *tempFile = DLLHead->head;
     while (tempFile != NULL) //go through all files in current commit
     {
-        if (tempFile->fileVersion == "")
+        if (!fs::exists("./.miniGit/" + tempFile->fileVersion))
         { //if file version does not exist
-
+            cout<<"tempFileVersion "<<tempFile->fileVersion<<endl;
             ofstream write;
-            write.open("./minigit/" + tempFile->fileName);
+            write.open("./.minigit/" + tempFile->fileVersion);
 
             ifstream read;
-            read.open("./current/" + tempFile->fileName);
+            read.open("./.current/" + tempFile->fileName);
+            cout<<read.is_open();
 
             string line;
             while (getline(read, line))
-            {
+            {   
+                cout<<"getting lines"<<endl;
                 write << line << endl;
             }
             // copy the file from the current directory into the .minigit directory.
@@ -174,12 +184,12 @@ void miniGit::commit()
         else //if file exists already
         {
             ifstream miniFile;
-            miniFile.open("./minigit/" + tempFile->fileVersion);
+            miniFile.open("./.minigit/" + tempFile->fileVersion);
             string miniLine;
             string sMini;
 
             ifstream currFile;
-            currFile.open("./current/" + tempFile->fileVersion);
+            currFile.open("./.current/" + tempFile->fileVersion);
             string currLine;
             string sCurr;
 
@@ -198,9 +208,9 @@ void miniGit::commit()
                 string newName = tempFile->fileName + to_string(currVersion);
                 tempFile->fileVersion = newName;
                 ofstream write;
-                write.open("./minigit/" + tempFile->fileVersion);
+                write.open("./.minigit/" + tempFile->fileVersion);
                 ifstream read;
-                read.open("./current/" + tempFile->fileVersion);
+                read.open("./.current/" + tempFile->fileVersion);
                 string line;
                 while (getline(read, line))
                 {
@@ -217,14 +227,16 @@ void miniGit::commit()
             //File is changed: copy the file from the current directory to the .minigit directory,
             // and give it a name with the incremented version number. Also, update the SLL node member fileVersion to the incremented name.
         }
+        tempFile = tempFile->next;
     }
+
     doublyNode *newCommit = new doublyNode();
     newCommit->next = DLLHead;
     DLLHead->previous = newCommit;
     DLLHead = newCommit;
 }
 
-bool miniGit::isNumber(string s)
+bool isNumber(string s)
 {
     for (int i = 0; i < s.size(); i++)
     {
